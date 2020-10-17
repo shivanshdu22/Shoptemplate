@@ -1,8 +1,10 @@
 <?php include ("header.php");?>
 	  <?php include ("sidebar.php");
 			include ("config.php");
+			
 			$fine=0;
 			$error= array();
+
 			if(isset($_POST['submit'])){
 				$prodcut=isset($_POST['Name'])?$_POST['Name']:'';
 				$Price=isset($_POST['Price'])?$_POST['Price']:'';
@@ -10,7 +12,13 @@
 				$category=isset($_POST['category'])?$_POST['category']:'';
 				$tag=isset($_POST['tag'])?$_POST['tag']:'';
 				$des=isset($_POST['Desc'])?$_POST['Desc']:'';
-								
+				
+				$sql = "SELECT * FROM user where name='".$prodcut."'";
+				$result = $conn->query($sql);
+		
+				if ($result->num_rows > 0) {
+					$error[]=array('input'=>'username','msg'=>'Data already present');	  
+				} 				
 				if(sizeof($error)==0){
 					$sql = "INSERT INTO products(category_id, name, price, image, tag, long_des) VALUES ('".$category."','".$prodcut."', '".$Price."', '".$img."', '".$tag."', '".$des."')";
 
@@ -38,7 +46,7 @@
 			</noscript>
 			
 			<!-- Page Head -->
-			<h2>Welcome John</h2>
+			<h2>Welcome <?php echo $_SESSION['userdata']['username']?></h2>
 			<p id="page-intro">What would you like to do?</p>
 			
 			<!--<ul class="shortcut-buttons-set">
@@ -79,8 +87,8 @@
 					<h3>Product List</h3>
 					
 					<ul class="content-box-tabs">
-						<li><a href="#tab1" class="default-tab">Table</a></li> <!-- href must be unique and match the id of target div -->
-						<li><a href="#tab2">Forms</a></li>
+						<li><a href="#tab1" class="default-tab">Products List</a></li> <!-- href must be unique and match the id of target div -->
+						<li><a href="#tab2">New Products</a></li>
 					</ul>
 					
 					<div class="clear"></div>
@@ -192,25 +200,28 @@
 								<p>
 									<label>Category</label>              
 									<select name="category" class="small-input">
-										<option value="1">Men</option>
-										<option value="2">Women</option>
-										<option value="3">Children</option>
-										<option value="4">Vintage</option>
+									<?php $sql = "SELECT * FROM category"; ?>
+									<?php $result = $conn->query($sql);?>
+									<?php
+									if ($result->num_rows > 0) {
+									  while($row = $result->fetch_assoc()) {?>
+										<option value="<?php echo $row['category_id'];?>"><?php echo $row['name'];?></option>
+									 <?php }
+									} ?>	
 									</select> 
 								</p>
 																
 								<p>
 									<label>Tags</label>
-									<input type="checkbox" name="tag" value="Fashion"/> Fashion
-									<input type="checkbox" name="tag" value="Shop" /> Shop
-									<input type="checkbox" name="tag" value="Laptop"/>Laptop
-									<input type="checkbox" name="tag" value="Electronics" />Electronics 
-									<input type="checkbox" name="tag" value="Headphone"/> Headphone
-								</p>
-								
-																
-								
-								
+									<?php $sql = "SELECT * FROM tags"; ?>
+									<?php $result = $conn->query($sql);?>
+									<?php
+									if ($result->num_rows > 0) {
+									  while($row = $result->fetch_assoc()) {?>
+										<input type="checkbox" name="tag" value="<?php echo $row['category_id'];?>"/> <?php echo $row['name'];?>
+									 <?php }
+									} ?>	
+								</p>								
 								<p>
 									<label>Description</label>
 									<textarea class="text-input textarea wysiwyg" id="textarea" name="Desc" cols="79" rows="15" required ></textarea>
@@ -312,4 +323,5 @@
 			
 			<!-- End Notifications -->
 			
-<?php include("footer.php"); ?> 			
+<?php include("footer.php");
+$conn->close(); ?> 			

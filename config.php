@@ -1,9 +1,9 @@
 <?php
-	$siteurl= "http://localhost/cedcoss/register/register.php";
+	//$siteurl= "http://localhost/cedcoss/register/register.php";
 	$dbhost="localhost";
 	$dbuser="root";
 	$dbpass="root";
-	$dbname="test";
+	$dbname="ecommerceshop";
 	
 	// Create connection
 	$conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);

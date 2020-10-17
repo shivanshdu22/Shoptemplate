@@ -1,6 +1,7 @@
 <div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
 			<?php include "config.php";?>
 			<?php
+				session_start();
 				$filename= basename($_SERVER['REQUEST_URI']);
 				$pages=array("products.php","category.php","tags.php");
 				$user=array("users.php");	
@@ -12,9 +13,9 @@
 		  
 			<!-- Sidebar Profile links -->
 			<div id="profile-links">
-				Hello, <a href="#" title="Edit your profile">John Doe</a>, you have <a href="#messages" rel="modal" title="3 Messages">3 Messages</a><br />
+				Hello, <a href="#" title="Edit your profile"><?php echo $_SESSION['userdata']['username']?></a>, you have <a href="#messages" rel="modal" title="3 Messages">3 Messages</a><br />
 				<br />
-				<a href="#" title="View the Site">View the Site</a> | <a href="#" title="Sign Out">Sign Out</a>
+				<a href="#" title="View the Site">View the Site</a> | <a href='logout.php' title="Sign Out">Sign Out</a>
 			</div>        
 			
 			<ul id="main-nav">  <!-- Accordion Menu -->
@@ -41,8 +42,7 @@
 						Users
 					</a>
 					<ul>
-						<li><a <?php if($filename=="users.php"):?>class="current"<?php endif;?> href="users.php">Add Users</a></li>
-						<li><a href="users.php">Manage Users</a></li>
+						<li><a <?php if($filename=="users.php"):?>class="current"<?php endif;?> href="users.php">Manage Users</a></li>
 					</ul>
 				</li>
 
