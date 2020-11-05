@@ -1,1 +1,1 @@
-An ecommerce shop website working on a Bootstrap based PHP tempelate. 
+An ecommerce shop website working on a Bootstrap based PHP template. 
